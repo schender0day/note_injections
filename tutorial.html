@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Query Tutorial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .navbar {
+            background: #333;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            position: relative;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        .navbar a:hover {
+            background: #555;
+        }
+        .navbar a.active {
+            background: #4CAF50;
+        }
+        .dropdown {
+            display: inline-block;
+            position: relative;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            margin: 0;
+        }
+        .dropdown-content a:hover {
+            background-color: #555;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 20px;
+        }
+        .xml-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .xml-display {
+            background: #2d2d2d;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .question {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .answer-input {
+            width: 100%;
+            height: 60px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .submit-button, .show-answer-button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .show-answer-button {
+            background: #2196F3;
+        }
+        .submit-button:hover {
+            background: #45a049;
+        }
+        .show-answer-button:hover {
+            background: #1976D2;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .feedback.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        .feedback.error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-button {
+            background: #1976d2;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .nav-button:disabled {
+            background: #bdbdbd;
+            cursor: not-allowed;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        .result-content {
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">XPath Tester</a>
+        <a href="tutorial.html" class="active">Tutorial</a>
+        <div class="dropdown">
+            <a href="#">XPath Injection</a>
+            <div class="dropdown-content">
+                <a href="injection-authbypass.html">Authentication Bypass</a>
+                <a href="injection-dataexfil.html">Data Exfiltration</a>
+                <a href="injection-advancedexfil.html">Advanced Data Exfiltration</a>
+                <a href="injection-blind.html">Blind Exploitation</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="#">Command Injection</a>
+            <div class="dropdown-content">
+                <a href="#">Coming Soon</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="#">LDAP Injection</a>
+            <div class="dropdown-content">
+                <a href="#">Coming Soon</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="#">HTML Injection</a>
+            <div class="dropdown-content">
+                <a href="#">Coming Soon</a>
+            </div>
+        </div>
+    </div>
+    <h1>XPath Query Tutorial</h1>
+    <div class="container">
+        <div class="xml-section">
+            <h2>Sample XML</h2>
+            <div class="xml-display" id="original"></div>
+        </div>
+        <div class="question-section">
+            <div id="question-display">
+                <div class="question">
+                    <h3>Question <span id="question-number">1</span> of <span id="total-questions">20</span></h3>
+                    <p id="question-text"></p>
+                </div>
+                <textarea class="answer-input" id="xpath-input" placeholder="Enter your XPath query here..."></textarea>
+                <div class="button-group">
+                    <button class="submit-button" onclick="checkAnswer()">Submit</button>
+                    <button class="show-answer-button" onclick="showAnswer()">Show Answer</button>
+                </div>
+                <div class="feedback" id="feedback"></div>
+                <div class="result-section">
+                    <h3>Query Results:</h3>
+                    <div class="result-content" id="query-result"></div>
+                </div>
+                <div class="navigation-buttons">
+                    <button class="nav-button" id="prev-button" onclick="previousQuestion()" disabled>Previous</button>
+                    <button class="nav-button" id="next-button" onclick="nextQuestion()" disabled>Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const sampleXML = `<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <bookstore>
+        <book category="web">
+            <title>Learning XML</title>
+            <author>Erik T. Ray</author>
+            <year>2003</year>
+            <price>39.95</price>
+        </book>
+        <book category="fiction">
+            <title>Snow Crash</title>
+            <author>Neal Stephenson</author>
+            <year>1992</year>
+            <price>49.99</price>
+        </book>
+        <book category="web">
+            <title>XPath Essentials</title>
+            <author>David Hunter</author>
+            <year>2010</year>
+            <price>29.99</price>
+        </book>
+        <book category="fiction">
+            <title>Cryptonomicon</title>
+            <author>Neal Stephenson</author>
+            <year>1999</year>
+            <price>23.99</price>
+        </book>
+    </bookstore>
+    <modules>
+        <module>
+            <tier>1</tier>
+            <title>Introduction to Web</title>
+            <description>Basic web concepts</description>
+        </module>
+        <module>
+            <tier>2</tier>
+            <title>Advanced JavaScript</title>
+            <description>Deep dive into JS</description>
+        </module>
+        <module>
+            <tier>2</tier>
+            <title>React Fundamentals</title>
+            <description>React basics</description>
+        </module>
+        <module>
+            <tier>3</tier>
+            <title>System Architecture</title>
+            <description>Advanced system design</description>
+        </module>
+        <module>
+            <tier>3</tier>
+            <title>Security Principles</title>
+            <description>Core security concepts</description>
+        </module>
+    </modules>
+</root>`;
+
+        const questions = [
+            {
+                question: "Select all book elements",
+                answer: "//book",
+                hint: "Use // to select elements anywhere in the document"
+            },
+            {
+                question: "Find all books in the 'web' category",
+                answer: "//book[@category='web']",
+                hint: "Use [@attribute='value'] to filter by attribute"
+            },
+            {
+                question: "Find all books with price over $30",
+                answer: "//book[price>30]",
+                hint: "Use [condition] to filter elements"
+            },
+            {
+                question: "Find all books by Neal Stephenson",
+                answer: "//book[author='Neal Stephenson']",
+                hint: "Use element comparison in predicates"
+            },
+            {
+                question: "Select the first book element",
+                answer: "//book[1]",
+                hint: "Use [1] to select the first element"
+            },
+            {
+                question: "Select all book titles",
+                answer: "//book/title",
+                hint: "Use / to select child elements"
+            },
+            {
+                question: "Find books with 'XML' in the title",
+                answer: "//book[contains(title,'XML')]",
+                hint: "Use contains() function for partial text matching"
+            },
+            {
+                question: "Get titles of Neal Stephenson books",
+                answer: "//book[author='Neal Stephenson']/title",
+                hint: "Combine predicates with child selection"
+            },
+            {
+                question: "Get titles of tier 2 and 3 modules",
+                answer: "//module[tier=2]/title | //module[tier=3]/title",
+                hint: "Use | to combine multiple queries"
+            },
+            {
+                question: "Find books with 'XML' or 'XPath' in title",
+                answer: "//book[contains(title,'XML') or contains(title,'XPath')]",
+                hint: "Use 'or' to combine conditions"
+            },
+            {
+                question: "Find modules starting with 'Advanced'",
+                answer: "//module[starts-with(title,'Advanced')]",
+                hint: "Use starts-with() for prefix matching"
+            },
+            {
+                question: "Find books with titles longer than 15 characters",
+                answer: "//book[string-length(title)>15]",
+                hint: "Use string-length() to check text length"
+            },
+            {
+                question: "Find books priced between $30-$40",
+                answer: "//book[price>=30 and price<=40]",
+                hint: "Use 'and' to combine numeric comparisons"
+            },
+            {
+                question: "Find books published in or after 2000",
+                answer: "//book[year>=2000]",
+                hint: "Use numeric comparison for dates"
+            },
+            {
+                question: "Find all non-beginner modules (tier not 1)",
+                answer: "//module[tier!=1]",
+                hint: "Use != for not equal comparison"
+            },
+            {
+                question: "Find web category books under $35",
+                answer: "//book[@category='web' and price<35]",
+                hint: "Combine attribute and element conditions"
+            },
+            {
+                question: "Find the last book in the bookstore",
+                answer: "//book[last()]",
+                hint: "Use last() function to select last element"
+            },
+            {
+                question: "Select first two books",
+                answer: "//book[position()<=2]",
+                hint: "Use position() function for index-based selection"
+            },
+            {
+                question: "Find all child elements of books",
+                answer: "//book/*",
+                hint: "Use * wildcard to select all children"
+            },
+            {
+                question: "Count total number of books",
+                answer: "count(//book)",
+                hint: "Use count() function to count elements"
+            }
+        ];
+
+        let currentQuestion = 0;
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(sampleXML, "text/xml");
+
+        // Display original XML
+        document.getElementById('original').textContent = sampleXML;
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question-number').textContent = currentQuestion + 1;
+            document.getElementById('total-questions').textContent = questions.length;
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('xpath-input').value = '';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('query-result').textContent = '';
+            
+            // Update navigation buttons
+            document.getElementById('prev-button').disabled = currentQuestion === 0;
+            document.getElementById('next-button').disabled = currentQuestion === questions.length - 1;
+        }
+
+        function showAnswer() {
+            const answer = questions[currentQuestion].answer;
+            document.getElementById('xpath-input').value = answer;
+            evaluateXPath(answer);
+        }
+
+        function evaluateXPath(xpath) {
+            try {
+                const result = document.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null);
+                let node;
+                let output = '';
+                let count = 0;
+
+                if (xpath.startsWith('count(')) {
+                    output = result.numberValue;
+                } else {
+                    while (node = result.iterateNext()) {
+                        output += (count > 0 ? '\n' : '') + node.outerHTML || node.textContent;
+                        count++;
+                    }
+                }
+
+                document.getElementById('query-result').textContent = output || 'No results found';
+            } catch (error) {
+                document.getElementById('query-result').textContent = 'Error evaluating XPath: ' + error.message;
+            }
+        }
+
+        function checkAnswer() {
+            const userXPath = document.getElementById('xpath-input').value.trim();
+            const correctXPath = questions[currentQuestion].answer;
+            const feedback = document.getElementById('feedback');
+            
+            try {
+                // Get user's result
+                const userResult = document.evaluate(userXPath, xmlDoc, null, XPathResult.ANY_TYPE, null);
+                const correctResult = document.evaluate(correctXPath, xmlDoc, null, XPathResult.ANY_TYPE, null);
+                
+                // Convert results to arrays for comparison
+                const userNodes = [];
+                const correctNodes = [];
+                let node;
+                
+                while (node = userResult.iterateNext()) userNodes.push(node);
+                while (node = correctResult.iterateNext()) correctNodes.push(node);
+
+                // Compare results
+                const correct = userNodes.length === correctNodes.length &&
+                              userNodes.every((node, i) => node.isEqualNode(correctNodes[i]));
+
+                feedback.className = correct ? 'feedback success' : 'feedback error';
+                feedback.textContent = correct ? 
+                    'Correct! Well done!' :
+                    'Not quite right. Try again! Hint: ' + questions[currentQuestion].hint;
+                feedback.style.display = 'block';
+
+                if (correct) {
+                    document.getElementById('next-button').disabled = false;
+                }
+
+                // Show query results
+                evaluateXPath(userXPath);
+            } catch (error) {
+                feedback.className = 'feedback error';
+                feedback.textContent = 'Invalid XPath syntax. Try again! Hint: ' + questions[currentQuestion].hint;
+                feedback.style.display = 'block';
+                document.getElementById('query-result').textContent = 'Error: Invalid XPath syntax';
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        // Initialize first question
+        displayQuestion();
+    </script>
+</body>
+</html>

