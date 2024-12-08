@@ -12,157 +12,484 @@ body {
     color: #333;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+/* Navbar Styles */
+.navbar {
+    background: #2c3e50;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Header Styles */
-header {
-    text-align: center;
-    margin-bottom: 40px;
-    padding: 20px;
-    background-color: #2c3e50;
+.nav-brand {
     color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links a {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.nav-links a.active,
+.nav-links a.current {
+    background-color: rgba(255,255,255,0.2);
+}
+
+/* Main Container */
+.container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    display: flex;
+    gap: 2rem;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    background: white;
+    padding: 1.5rem;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
 }
 
-header h1 {
-    margin-bottom: 10px;
+.topic-header {
+    cursor: pointer;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.3s;
 }
 
-/* Section Styles */
-section {
-    background-color: white;
-    padding: 20px;
-    margin-bottom: 30px;
+.topic-header:hover {
+    background: #e9ecef;
+}
+
+.topic-content {
+    padding: 0.5rem 0 1rem 1.5rem;
+}
+
+.topic-content a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #495057;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.topic-content a:hover {
+    background: #f8f9fa;
+    color: #228be6;
+}
+
+.topic-content a.active {
+    background: #e7f5ff;
+    color: #228be6;
+    font-weight: 500;
+}
+
+/* Progress Tracker */
+#progress-tracker {
+    margin-top: 1rem;
+}
+
+.progress-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.progress-item:last-child {
+    border-bottom: none;
+}
+
+.challenge-name {
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.status i {
+    font-size: 0.8rem;
+}
+
+.status.incomplete i {
+    color: #adb5bd;
+}
+
+.status.complete i {
+    color: #40c057;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    background: white;
+    padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-section h2 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+.content-header {
+    margin-bottom: 2rem;
 }
 
-/* Login Form Styles */
-.login-form {
+.content-header h1 {
+    color: #212529;
+    margin-bottom: 0.5rem;
+}
+
+.breadcrumb {
+    color: #868e96;
+    font-size: 0.9rem;
+}
+
+.breadcrumb a {
+    color: #228be6;
+    text-decoration: none;
+}
+
+/* Challenge Tabs */
+.challenge-tabs {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0;
+}
+
+.tab-btn {
+    padding: 1rem 1.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #495057;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.3s;
+}
+
+.tab-btn:hover {
+    color: #228be6;
+}
+
+.tab-btn.active {
+    color: #228be6;
+    border-bottom-color: #228be6;
+    font-weight: 500;
+}
+
+/* Challenge Content */
+.challenge {
+    display: none;
+}
+
+.challenge.active {
+    display: block;
+}
+
+.challenge-description {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.challenge-description h2 {
+    color: #212529;
+    margin-bottom: 1rem;
+}
+
+.challenge-description p {
+    color: #495057;
+    margin-bottom: 1rem;
+}
+
+.difficulty,
+.points {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-right: 1rem;
+}
+
+.difficulty {
+    background: #e7f5ff;
+    color: #228be6;
+}
+
+.points {
+    background: #fff3bf;
+    color: #fab005;
+}
+
+/* Answer Section */
+.answer-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f1f8ff;
+    border-radius: 8px;
+    border-left: 4px solid #228be6;
+}
+
+.answer-section h3 {
+    color: #1864ab;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.answer-section p {
+    color: #495057;
+    margin-bottom: 1rem;
+}
+
+.answer-section ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.answer-section li {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.answer-section code {
+    background: #e7f5ff;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9rem;
+    color: #1864ab;
+}
+
+/* Code Blocks */
+.vulnerable-code {
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.vulnerable-code h3 {
+    padding: 1rem;
+    background: #343a40;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.code-block {
+    padding: 1.5rem;
+    background: #212529;
+    color: #ced4da;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    overflow-x: auto;
+}
+
+.code-block pre {
+    margin: 0;
+}
+
+/* Hints Section */
+.hints {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.hint-btn {
+    padding: 0.75rem 1rem;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #495057;
+    margin-right: 0.5rem;
+    transition: all 0.3s;
+}
+
+.hint-btn:hover {
+    background: #f8f9fa;
+    border-color: #adb5bd;
+}
+
+.hint-content {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: white;
+    border-left: 4px solid #228be6;
+    color: #495057;
+    font-size: 0.9rem;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Login Form */
+.login-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.login-form {
     max-width: 400px;
     margin: 0 auto;
 }
 
-.login-form input {
-    padding: 12px;
-    border: 1px solid #ddd;
+.code-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid #e9ecef;
     border-radius: 4px;
-    font-size: 16px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
 }
 
-.login-form button {
-    padding: 12px;
-    background-color: #3498db;
+.code-input:focus {
+    outline: none;
+    border-color: #228be6;
+}
+
+.btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #228be6;
     color: white;
     border: none;
     border-radius: 4px;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 16px;
     transition: background-color 0.3s;
 }
 
-.login-form button:hover {
-    background-color: #2980b9;
+.btn:hover {
+    background: #1971c2;
 }
 
 #login-result {
-    margin-top: 20px;
-    padding: 15px;
+    margin-top: 1rem;
+    padding: 1rem;
     border-radius: 4px;
     text-align: center;
+    font-size: 0.9rem;
 }
 
 #login-result.success {
-    background-color: #2ecc71;
-    color: white;
+    background: #d3f9d8;
+    color: #2b8a3e;
 }
 
 #login-result.error {
-    background-color: #e74c3c;
-    color: white;
+    background: #ffe3e3;
+    color: #c92a2a;
 }
 
-/* XML Viewer Styles */
-.xml-viewer pre {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 4px;
-    overflow-x: auto;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 14px;
+/* XML and XPath Display */
+.xml-viewer,
+.xpath-query {
+    margin: 1.5rem 0;
+}
+
+.xml-viewer h2,
+.xpath-query h2 {
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+#xml-content,
+#xpath-display {
+    padding: 1.5rem;
+    background: #212529;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9rem;
     line-height: 1.5;
+    overflow-x: auto;
 }
 
-/* XPath Query Styles */
-.xpath-query pre {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 4px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 14px;
-    color: #e74c3c;
+#xml-content {
+    color: #ced4da;
 }
 
-/* Payloads Section Styles */
-.payload-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.payload-item {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.payload-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.payload-item code {
-    display: block;
-    background-color: #2c3e50;
-    color: #fff;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.payload-item p {
-    color: #666;
-    font-size: 14px;
+#xpath-display {
+    color: #ffd43b;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .container {
-        padding: 10px;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
     }
     
-    .payload-list {
-        grid-template-columns: 1fr;
+    .sidebar {
+        width: 100%;
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .challenge-tabs {
+        flex-direction: column;
+        gap: 0.5rem;
     }
     
-    section {
-        padding: 15px;
+    .tab-btn {
+        width: 100%;
+        text-align: left;
+        border-bottom: none;
+        border-left: 2px solid transparent;
     }
+    
+    .tab-btn.active {
+        border-bottom: none;
+        border-left: 2px solid #228be6;
+    }
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
 }
