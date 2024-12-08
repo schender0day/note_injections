@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <streets>
+        <street>
+            <streetname>MARKET</streetname>
+            <fullstreetname>MARKET STREET</fullstreetname>
+        </street>
+        <street>
+            <streetname>BARCELONA</streetname>
+            <fullstreetname>BARCELONA AVENUE</fullstreetname>
+        </street>
+        <street>
+            <streetname>MISSION</streetname>
+            <fullstreetname>MISSION STREET</fullstreetname>
+        </street>
+        <street>
+            <streetname>VALENCIA</streetname>
+            <fullstreetname>VALENCIA STREET</fullstreetname>
+        </street>
+    </streets>
+    <users>
+        <user>
+            <username>admin</username>
+            <password>admin123</password>
+            <role>administrator</role>
+        </user>
+        <user>
+            <username>john</username>
+            <password>password123</password>
+            <role>user</role>
+        </user>
+        <user>
+            <username>alice</username>
+            <password>secret456</password>
+            <role>user</role>
+        </user>
+    </users>
+</database>
