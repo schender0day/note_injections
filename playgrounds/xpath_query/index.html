@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Query Tutorial - 0xseanshin Hacking Notebook</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="xpath_query_tutorial.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">0xseanshin Hacking Notebook</div>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="#" class="active">Injections</a>
+            <a href="#" class="current">XPath</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="topic-list">
+                <div class="topic">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <i class="fas fa-chevron-right"></i>
+                        XPath Tutorials
+                    </div>
+                    <div class="topic-content">
+                        <a href="#" class="active">XPath Query Basics</a>
+                        <a href="../xpath_query_pg/index.html">Query Practice</a>
+                        <a href="../xpath_auth_bypass/index.html">Auth Bypass Lab</a>
+                    </div>
+                </div>
+                
+                <div class="topic">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <i class="fas fa-chevron-right"></i>
+                        XPath Injection Types
+                    </div>
+                    <div class="topic-content">
+                        <a href="injection-authbypass.html">Authentication Bypass</a>
+                        <a href="injection-dataexfil.html">Data Exfiltration</a>
+                        <a href="injection-advancedexfil.html">Advanced Exfiltration</a>
+                        <a href="injection-blind.html">Blind Exploitation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>XPath Query Tutorial</h1>
+                <div class="breadcrumb">
+                    <a href="../../index.html">Home</a> &gt;
+                    <a href="../../index.html#xpath">XPath</a> &gt;
+                    <span>Query Tutorial</span>
+                </div>
+            </div>
+
+            <div class="tutorial-container">
+                <section class="xml-section">
+                    <h2>Sample XML</h2>
+                    <div class="code-block">
+                        <div class="xml-display" id="original"></div>
+                    </div>
+                </section>
+
+                <section class="question-section">
+                    <div id="question-display">
+                        <div class="question">
+                            <h3>Question <span id="question-number">1</span> of <span id="total-questions">20</span></h3>
+                            <p id="question-text"></p>
+                        </div>
+                        <div class="code-block">
+                            <textarea class="answer-input" id="xpath-input" placeholder="Enter your XPath query here..."></textarea>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn" onclick="checkAnswer()">Submit</button>
+                            <button class="btn secondary" onclick="showAnswer()">Show Answer</button>
+                        </div>
+                        <div class="feedback" id="feedback"></div>
+                        <div class="result-section">
+                            <h3>Query Results:</h3>
+                            <div class="code-block">
+                                <div class="result-content" id="query-result"></div>
+                            </div>
+                        </div>
+                        <div class="navigation-buttons">
+                            <button class="btn" id="prev-button" onclick="previousQuestion()" disabled>Previous</button>
+                            <button class="btn" id="next-button" onclick="nextQuestion()" disabled>Next</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../script.js"></script>
+    <script src="xpath_query_tutorial.js"></script>
+</body>
+</html>

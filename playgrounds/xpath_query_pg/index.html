@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Query Practice - 0xseanshin Hacking Notebook</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">0xseanshin Hacking Notebook</div>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="#" class="active">Injections</a>
+            <a href="#" class="current">XPath</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="query-categories">
+            <div class="category" id="basic-queries">
+                <h2>Basic Queries</h2>
+                <div class="query-buttons">
+                    <button class="query-button" data-xpath="//book">Select all book elements</button>
+                    <button class="query-button" data-xpath="//book[@category='web']">Books in 'web' category</button>
+                    <button class="query-button" data-xpath="//book[price>30]">Books over $30</button>
+                    <button class="query-button" data-xpath="//book[author='Neal Stephenson']">Books by Neal Stephenson</button>
+                    <button class="query-button" data-xpath="//book/title">All book titles</button>
+                </div>
+            </div>
+
+            <div class="category" id="text-functions">
+                <h2>Text Functions</h2>
+                <div class="query-buttons">
+                    <button class="query-button" data-xpath="//book[contains(title, 'XML') or contains(title, 'XPath')]">Books with 'XML' or 'XPath' in title</button>
+                    <button class="query-button" data-xpath="//module[starts-with(title, 'Advanced')]">Modules starting with 'Advanced'</button>
+                    <button class="query-button" data-xpath="//book[string-length(title) > 15]">Books with long titles (>15 chars)</button>
+                </div>
+            </div>
+
+            <div class="category" id="numeric-ops">
+                <h2>Numeric Operations</h2>
+                <div class="query-buttons">
+                    <button class="query-button" data-xpath="//book[price >= 30 and price <= 40]">Books priced between $30-$40</button>
+                    <button class="query-button" data-xpath="//book[year >= 2000]">Books from 2000 or later</button>
+                    <button class="query-button" data-xpath="//module[tier != 1]">Non-beginner modules</button>
+                </div>
+            </div>
+
+            <div class="category" id="multiple-conditions">
+                <h2>Multiple Conditions</h2>
+                <div class="query-buttons">
+                    <button class="query-button" data-xpath="//book[@category='web' and price < 35]">Affordable web books (<$35)</button>
+                    <button class="query-button" data-xpath="//book[year > 2000 or price > 40]">Recent or expensive books</button>
+                    <button class="query-button" data-xpath="//module[tier >= 2 and contains(title, 'JavaScript')]">Advanced JS modules</button>
+                </div>
+            </div>
+
+            <div class="category" id="position-based">
+                <h2>Position Based</h2>
+                <div class="query-buttons">
+                    <button class="query-button" data-xpath="//book[last()]">Last book</button>
+                    <button class="query-button" data-xpath="//book[position() <= 2]">First two books</button>
+                    <button class="query-button" data-xpath="//module[position() mod 2 = 1]">Odd-numbered modules</button>
+                </div>
+            </div>
+
+            <div class="category" id="relationships">
+                <h2>Parent/Child/Sibling</h2>
+                <div class="query-buttons">
+                    <button class="query-button" data-xpath="//book[price > 30]/parent::*">Parent of expensive books</button>
+                    <button class="query-button" data-xpath="//book[1]/following-sibling::book">Books after the first one</button>
+                    <button class="query-button" data-xpath="//*[price]/name()">Elements containing price</button>
+                </div>
+            </div>
+
+            <div class="category" id="wildcards">
+                <h2>Wildcards and Node Tests</h2>
+                <div class="query-buttons">
+                    <button class="query-button" data-xpath="//book/*">All child elements of books</button>
+                    <button class="query-button" data-xpath="//book/*/text()">Text content of book children</button>
+                    <button class="query-button" data-xpath="//*[@category]">Elements with category attribute</button>
+                </div>
+            </div>
+
+            <div class="category" id="aggregates">
+                <h2>Aggregate Functions</h2>
+                <div class="query-buttons">
+                    <button class="query-button" data-xpath="count(//book)">Count of all books</button>
+                    <button class="query-button" data-xpath="sum(//book/price)">Total price of all books</button>
+                    <button class="query-button" data-xpath="//book[price = max(//book/price)]">Most expensive book</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h2>Custom Query</h2>
+                <div class="custom-query">
+                    <textarea id="custom-xpath" class="code-input" placeholder="Enter your XPath query here..."></textarea>
+                    <button class="btn" id="execute-query">Execute Query</button>
+                    <div class="error-message" id="error-message"></div>
+                </div>
+            </div>
+        </div>
+
+        <section class="result-section">
+            <div class="result-block">
+                <h3>Original XML:</h3>
+                <div class="code-block">
+                    <div class="xml-display" id="original"></div>
+                </div>
+            </div>
+            
+            <div class="result-block">
+                <h3>Actual Query:</h3>
+                <div class="code-block">
+                    <div class="actual-query" id="actual-query"></div>
+                </div>
+            </div>
+            
+            <div class="result-block">
+                <h3>Query Structure:</h3>
+                <div class="code-block">
+                    <div class="query-structure" id="query-structure"></div>
+                </div>
+            </div>
+            
+            <div class="result-block">
+                <h3>Query Result:</h3>
+                <div class="code-block">
+                    <div class="xml-display" id="result"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="../../script.js"></script>
+    <script src="xpath_query_pg.js"></script>
+</body>
+</html>

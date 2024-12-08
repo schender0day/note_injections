@@ -3,451 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XPath Query Tester</title>
-    <style>
-        /* Existing styles */
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        /* Updated navbar styles with dropdown */
-        .navbar {
-            background: #333;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            position: relative;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            margin-right: 10px;
-            border-radius: 4px;
-        }
-        .navbar a:hover {
-            background: #555;
-        }
-        .navbar a.active {
-            background: #4CAF50;
-        }
-        .dropdown {
-            display: inline-block;
-            position: relative;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #333;
-            min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 4px;
-            margin-top: 5px;
-        }
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            margin: 0;
-        }
-        .dropdown-content a:hover {
-            background-color: #555;
-        }
-        /* Rest of existing styles */
-        .container {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 20px;
-        }
-        .query-list {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .query-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            background: #f0f0f0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            text-align: left;
-        }
-        .query-button:hover {
-            background: #e0e0e0;
-        }
-        .result-container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .xml-display {
-            background: #2d2d2d;
-            color: #fff;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 10px 0;
-            white-space: pre-wrap;
-            font-family: monospace;
-        }
-        .highlight {
-            background-color: #ffeb3b;
-            color: #000;
-            padding: 2px;
-        }
-        h2 {
-            margin-top: 0;
-            color: #333;
-        }
-        .description {
-            margin: 10px 0;
-            color: #666;
-        }
-        .query-structure {
-            background: #1e88e5;
-            color: white;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 10px 0;
-            font-family: monospace;
-            line-height: 1.5;
-        }
-        .query-part {
-            display: inline-block;
-            padding: 2px 6px;
-            margin: 0 2px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 3px;
-        }
-        .actual-query {
-            background: #4a148c;
-            color: white;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 10px 0;
-            font-family: monospace;
-            font-size: 1.1em;
-        }
-        .custom-query {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid #eee;
-        }
-        .custom-query textarea {
-            width: 100%;
-            height: 60px;
-            padding: 10px;
-            margin: 10px 0;
-            font-family: monospace;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            resize: vertical;
-        }
-        .execute-button {
-            background: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        .execute-button:hover {
-            background: #45a049;
-        }
-        .error-message {
-            color: #d32f2f;
-            background: #ffebee;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
-            display: none;
-        }
-    </style>
+    <title>0xseanshin Hacking Notebook - Injection Notes</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="navbar">
-        <a href="index.html" class="active">XPath Tester</a>
-        <a href="tutorial.html">Tutorial</a>
-        <div class="dropdown">
-            <a href="#">XPath Injection</a>
-            <div class="dropdown-content">
-                <a href="injection-authbypass.html">Authentication Bypass</a>
-                <a href="injection-dataexfil.html">Data Exfiltration</a>
-                <a href="injection-advancedexfil.html">Advanced Data Exfiltration</a>
-                <a href="injection-blind.html">Blind Exploitation</a>
-            </div>
+    <nav class="navbar">
+        <div class="nav-brand">0xseanshin Hacking Notebook</div>
+        <div class="nav-links">
+            <a href="#" class="active">Injections</a>
+            <a href="#">SQL</a>
+            <a href="#">NoSQL</a>
+            <a href="#" class="current">XPath</a>
         </div>
-        <div class="dropdown">
-            <a href="#">Command Injection</a>
-            <div class="dropdown-content">
-                <a href="#">Coming Soon</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <a href="#">LDAP Injection</a>
-            <div class="dropdown-content">
-                <a href="#">Coming Soon</a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <a href="#">HTML Injection</a>
-            <div class="dropdown-content">
-                <a href="#">Coming Soon</a>
-            </div>
-        </div>
-    </div>
+    </nav>
 
-    <h1>XPath Query Tester</h1>
     <div class="container">
-        <div class="query-list">
-            <h2>XPath Queries</h2>
-            <!-- Basic Queries -->
-            <button class="query-button" data-xpath="//book">Select all book elements</button>
-            <button class="query-button" data-xpath="//book[@category='web']">Books in 'web' category</button>
-            <button class="query-button" data-xpath="//book[price>30]">Books over $30</button>
-            <button class="query-button" data-xpath="//book[author='Neal Stephenson']">Books by Neal Stephenson</button>
-            <button class="query-button" data-xpath="//book[position()=1]">First book</button>
-            <button class="query-button" data-xpath="//book/title">All book titles</button>
-            <button class="query-button" data-xpath="//book[contains(title,'XML')]">Books with 'XML' in title</button>
-            <button class="query-button" data-xpath="//book[author='Neal Stephenson']/title">Titles of Neal Stephenson books</button>
-            <button class="query-button" data-xpath="//module[tier=2]/title | //module[tier=3]/title">Titles of tier 2 and 3 modules</button>
-
-            <!-- Text Functions -->
-            <button class="query-button" data-xpath="//book[contains(title, 'XML') or contains(title, 'XPath')]">Books with 'XML' or 'XPath' in title</button>
-            <button class="query-button" data-xpath="//module[starts-with(title, 'Advanced')]">Modules starting with 'Advanced'</button>
-            <button class="query-button" data-xpath="//book[string-length(title) > 15]">Books with long titles (>15 chars)</button>
-
-            <!-- Numeric Operations -->
-            <button class="query-button" data-xpath="//book[price >= 30 and price <= 40]">Books priced between $30-$40</button>
-            <button class="query-button" data-xpath="//book[year >= 2000]">Books from 2000 or later</button>
-            <button class="query-button" data-xpath="//module[tier != 1]">Non-beginner modules (tier not 1)</button>
-
-            <!-- Multiple Conditions -->
-            <button class="query-button" data-xpath="//book[@category='web' and price < 35]">Affordable web books (<$35)</button>
-            <button class="query-button" data-xpath="//book[year > 2000 or price > 40]">Recent or expensive books</button>
-            <button class="query-button" data-xpath="//module[tier >= 2 and contains(title, 'JavaScript')]">Advanced JS modules</button>
-
-            <!-- Position Based -->
-            <button class="query-button" data-xpath="//book[last()]">Last book</button>
-            <button class="query-button" data-xpath="//book[position() <= 2]">First two books</button>
-            <button class="query-button" data-xpath="//module[position() mod 2 = 1]">Odd-numbered modules</button>
-
-            <!-- Parent/Child/Sibling -->
-            <button class="query-button" data-xpath="//book[price > 30]/parent::*">Parent of expensive books</button>
-            <button class="query-button" data-xpath="//book[1]/following-sibling::book">Books after the first one</button>
-            <button class="query-button" data-xpath="//*[price]/name()">Elements containing price</button>
-
-            <!-- Wildcards and Node Tests -->
-            <button class="query-button" data-xpath="//book/*">All child elements of books</button>
-            <button class="query-button" data-xpath="//book/*/text()">Text content of book children</button>
-            <button class="query-button" data-xpath="//*[@category]">Elements with category attribute</button>
-
-            <!-- Aggregate Functions -->
-            <button class="query-button" data-xpath="count(//book)">Count of all books</button>
-            <button class="query-button" data-xpath="sum(//book/price)">Total price of all books</button>
-            <button class="query-button" data-xpath="//book[price = max(//book/price)]">Most expensive book</button>
-            
-            <div class="custom-query">
-                <h2>Custom Query</h2>
-                <textarea id="custom-xpath" placeholder="Enter your XPath query here..."></textarea>
-                <button class="execute-button" id="execute-query">Execute Query</button>
-                <div class="error-message" id="error-message"></div>
+        <div class="sidebar">
+            <div class="topic-list">
+                <div class="topic">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <i class="fas fa-chevron-right"></i>
+                        XPath Injections
+                    </div>
+                    <div class="topic-content">
+                        <a href="#introduction">Introduction</a>
+                        <a href="#basics">XPath Basics</a>
+                        <a href="#authentication">Authentication Bypass</a>
+                        <a href="#advanced">Advanced Techniques</a>
+                    </div>
+                </div>
+                
+                <div class="topic">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <i class="fas fa-chevron-right"></i>
+                        Interactive Playgrounds
+                    </div>
+                    <div class="topic-content">
+                        <a href="playgrounds/xpath_query/index.html">XPath Query Basics</a>
+                        <a href="playgrounds/xpath_query_pg/index.html">XPath Query Practice</a>
+                        <a href="playgrounds/xpath_auth_bypass/index.html">Authentication Bypass Lab</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="result-container">
-            <h2>Results</h2>
-            <div class="description">Original XML:</div>
-            <div class="xml-display" id="original"></div>
-            <div class="description">Actual Query:</div>
-            <div class="actual-query" id="actual-query"></div>
-            <div class="description">Query Structure:</div>
-            <div class="query-structure" id="query-structure"></div>
-            <div class="description">Query Result:</div>
-            <div class="xml-display" id="result"></div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>XPath Injection Techniques</h1>
+                <div class="breadcrumb">
+                    <a href="#">Home</a> &gt;
+                    <a href="#">Injections</a> &gt;
+                    <span>XPath</span>
+                </div>
+            </div>
+
+            <section id="introduction">
+                <h2>Introduction to XPath Injections</h2>
+                <p>XPath injection is a technique used to manipulate or bypass authentication in XML-based applications. Similar to SQL injection, it exploits improper input validation to modify XPath queries.</p>
+                <div class="practice-btn">
+                    <a href="playgrounds/xpath_query/index.html" class="btn">Try XPath Basics Playground</a>
+                </div>
+            </section>
+
+            <section id="basics">
+                <h2>XPath Query Basics</h2>
+                <p>XPath (XML Path Language) is a query language for selecting nodes from XML documents. Understanding its syntax is crucial for identifying and exploiting vulnerabilities.</p>
+                <div class="code-block">
+                    <pre><code>/users/user[username/text()='admin']</code></pre>
+                </div>
+                <div class="practice-btn">
+                    <a href="playgrounds/xpath_query_pg/index.html" class="btn">Practice XPath Queries</a>
+                </div>
+            </section>
+
+            <section id="authentication">
+                <h2>Authentication Bypass Techniques</h2>
+                <p>XPath injection can be used to bypass authentication mechanisms that rely on XML data stores. Common techniques include:</p>
+                <ul>
+                    <li>Using OR conditions: <code>' or '1'='1</code></li>
+                    <li>XPath functions: <code>' or true() or '</code></li>
+                    <li>Position-based: <code>' or position()=1 or '</code></li>
+                </ul>
+                <div class="practice-btn">
+                    <a href="playgrounds/xpath_auth_bypass/index.html" class="btn">Try Auth Bypass Lab</a>
+                </div>
+            </section>
+
+            <section id="advanced">
+                <h2>Advanced XPath Techniques</h2>
+                <p>Advanced XPath injection techniques involve:</p>
+                <ul>
+                    <li>Blind XPath injection</li>
+                    <li>Data extraction using string functions</li>
+                    <li>Automated exploitation tools</li>
+                </ul>
+            </section>
         </div>
     </div>
-    <script>
-        const sampleXML = `<?xml version="1.0" encoding="UTF-8"?>
-<root>
-    <bookstore>
-        <book category="web">
-            <title>Learning XML</title>
-            <author>Erik T. Ray</author>
-            <year>2003</year>
-            <price>39.95</price>
-        </book>
-        <book category="fiction">
-            <title>Snow Crash</title>
-            <author>Neal Stephenson</author>
-            <year>1992</year>
-            <price>49.99</price>
-        </book>
-        <book category="web">
-            <title>XPath Essentials</title>
-            <author>David Hunter</author>
-            <year>2010</year>
-            <price>29.99</price>
-        </book>
-        <book category="fiction">
-            <title>Cryptonomicon</title>
-            <author>Neal Stephenson</author>
-            <year>1999</year>
-            <price>23.99</price>
-        </book>
-    </bookstore>
-    <modules>
-        <module>
-            <tier>1</tier>
-            <title>Introduction to Web</title>
-            <description>Basic web concepts</description>
-        </module>
-        <module>
-            <tier>2</tier>
-            <title>Advanced JavaScript</title>
-            <description>Deep dive into JS</description>
-        </module>
-        <module>
-            <tier>2</tier>
-            <title>React Fundamentals</title>
-            <description>React basics</description>
-        </module>
-        <module>
-            <tier>3</tier>
-            <title>System Architecture</title>
-            <description>Advanced system design</description>
-        </module>
-        <module>
-            <tier>3</tier>
-            <title>Security Principles</title>
-            <description>Core security concepts</description>
-        </module>
-    </modules>
-</root>`;
 
-        // Parse XML
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(sampleXML, "text/xml");
-
-        // Display original XML
-        document.getElementById('original').textContent = sampleXML;
-
-        // Function to explain XPath structure
-        function explainXPathStructure(xpath) {
-            let explanation = '';
-            
-            if (xpath.includes(' | ')) {
-                const parts = xpath.split(' | ');
-                parts.forEach((part, index) => {
-                    explanation += `Part ${index + 1}:\n${explainXPathPart(part)}\n`;
-                    if (index < parts.length - 1) {
-                        explanation += '<span class="query-part">|</span> Union operator\n';
-                    }
-                });
-                return explanation;
-            }
-            
-            return explainXPathPart(xpath);
-        }
-
-        function explainXPathPart(xpath) {
-            let explanation = '';
-            
-            if (xpath.startsWith('//')) {
-                explanation += '<span class="query-part">//</span> Search anywhere in the document\n';
-            }
-
-            const parts = xpath.replace(/^\/\//, '').split('/');
-            parts.forEach((part, index) => {
-                if (part.includes('[')) {
-                    const [element, condition] = part.split('[');
-                    explanation += `<span class="query-part">${element}</span> Element name\n`;
-                    explanation += `<span class="query-part">[${condition}</span> Condition/Filter\n`;
-                } else if (part === '..') {
-                    explanation += `<span class="query-part">..</span> Parent element\n`;
-                } else if (part === 'text()') {
-                    explanation += `<span class="query-part">text()</span> Text content\n`;
-                } else {
-                    explanation += `<span class="query-part">${part}</span> Element name\n`;
-                }
-            });
-
-            return explanation;
-        }
-
-        // Function to serialize XML node to string
-        function serializeXMLNodes(nodes) {
-            let result = '';
-            nodes.forEach(node => {
-                const serializer = new XMLSerializer();
-                result += serializer.serializeToString(node) + '\n';
-            });
-            return result;
-        }
-
-        // Function to execute XPath query and update UI
-        function executeQuery(xpath) {
-            const errorMessage = document.getElementById('error-message');
-            try {
-                const result = document.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null);
-                
-                let nodes = [];
-                let node = result.iterateNext();
-                while (node) {
-                    nodes.push(node);
-                    node = result.iterateNext();
-                }
-
-                document.getElementById('actual-query').textContent = xpath;
-                document.getElementById('query-structure').innerHTML = explainXPathStructure(xpath);
-                document.getElementById('result').textContent = serializeXMLNodes(nodes);
-                
-                errorMessage.style.display = 'none';
-            } catch (error) {
-                errorMessage.textContent = `Error: ${error.message}`;
-                errorMessage.style.display = 'block';
-                document.getElementById('result').textContent = '';
-            }
-        }
-
-        // Add click handlers to preset query buttons
-        document.querySelectorAll('.query-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const xpath = button.dataset.xpath;
-                executeQuery(xpath);
-            });
-        });
-
-        // Add click handler to custom query execute button
-        document.getElementById('execute-query').addEventListener('click', () => {
-            const xpath = document.getElementById('custom-xpath').value.trim();
-            if (xpath) {
-                executeQuery(xpath);
-            }
-        });
-
-        // Add enter key handler to textarea
-        document.getElementById('custom-xpath').addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' && event.ctrlKey) {
-                event.preventDefault();
-                const xpath = event.target.value.trim();
-                if (xpath) {
-                    executeQuery(xpath);
-                }
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
